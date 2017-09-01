@@ -1,0 +1,5 @@
+name: Football
+version: 1.0
+author: ObdachIoser
+
+main: de.obdachioser.football.Football
