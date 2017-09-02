@@ -38,8 +38,6 @@ public class PlayerMoveListener implements Listener {
 				Bukkit.getPluginManager().callEvent(playerRegionEnteredEvent);
 
 				if (playerRegionEnteredEvent.isCancelled()) return;
-
-				playerCache.setIngame(true);
 				return;
 			 }
 		  }
@@ -52,8 +50,6 @@ public class PlayerMoveListener implements Listener {
 				Bukkit.getPluginManager().callEvent(playerRegionLeftEvent);
 
 				if (playerRegionLeftEvent.isCancelled()) return;
-
-				playerCache.setIngame(false);
 			 }
 		  }
 	   }

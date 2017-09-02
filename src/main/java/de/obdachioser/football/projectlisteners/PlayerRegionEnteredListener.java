@@ -31,8 +31,8 @@ public class PlayerRegionEnteredListener implements Listener {
             (middleLocation.getY()+playerLocation.getY()), (middleLocation.getZ()+playerLocation.getZ()));
 
             vector.setY(0.95);
-            vector.setX(vector.getBlockX()/8.55);
-            vector.setZ(vector.getBlockZ()/8.55);
+            vector.setX(vector.getBlockX()/11.55);
+            vector.setZ(vector.getBlockZ()/11.55);
 
             event.getPlayer().setVelocity(vector);
 
@@ -45,6 +45,13 @@ public class PlayerRegionEnteredListener implements Listener {
             }
 
             event.setCancelled(true);
+
+        } else {
+
+            customPlayerCache.setIngame(true);
+
+            event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7betreten!");
+            event.getPlayer().playSound(event.getPlayer().getEyeLocation(), Sound.ITEM_PICKUP, 1F, 1F);
         }
     }
 }

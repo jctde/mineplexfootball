@@ -1,8 +1,11 @@
 package de.obdachioser.football.game;
 
 import com.google.common.collect.Lists;
+import de.obdachioser.football.events.PlayerTeamJoinEvent;
+import de.obdachioser.football.events.PlayerTeamQuitEvent;
 import de.obdachioser.football.utils.ItemStackCreator;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -41,12 +44,14 @@ public class SimpleTeam extends DefinedTeam {
     public void removePlayer(Player player) {
 
         playerList.remove(player);
+        Bukkit.getPluginManager().callEvent(new PlayerTeamQuitEvent(player, this));
     }
 
     @Override
     public void addPlayer(Player player) {
 
         playerList.add(player);
+        Bukkit.getPluginManager().callEvent(new PlayerTeamJoinEvent(player, this));
     }
 
     @Override
@@ -56,7 +61,7 @@ public class SimpleTeam extends DefinedTeam {
 
     @Override
     public String getTeamName() {
-	   return teamColor.getTeamName();
+	   return teamColor.getTeamName().toLowerCase();
     }
 
     @Override

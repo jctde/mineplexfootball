@@ -27,5 +27,4 @@ public enum TeamColor {
         this.displayName = displayName;
         this.color = color;
     }
-
 }

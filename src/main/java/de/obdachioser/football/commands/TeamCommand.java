@@ -30,19 +30,11 @@ public class TeamCommand extends Command {
             commandSender.sendMessage(Football.getPrefix() + "Bitte wähle ein Team aus!");
 		  commandSender.sendMessage("§c/team <join|leave> [Rot|Blau]");
 		  return true;
-
 	   }
 
 	   if(args.length < 2 && args[0].equalsIgnoreCase("join")) {
 
             commandSender.sendMessage(Football.getPrefix() + "§cBitte wähle ein Team aus!");
-            return true;
-	   }
-
-	   if(!args[0].equalsIgnoreCase("join") || !args[0].equalsIgnoreCase("leave")) {
-
-		  commandSender.sendMessage(Football.getPrefix() + "Bitte wähle ein Team aus!");
-		  commandSender.sendMessage("§c/team <join|leave> [Rot|Blau]");
             return true;
 	   }
 
@@ -69,43 +61,49 @@ public class TeamCommand extends Command {
 		  customPlayerCache.setIngame(false);
 		  player.sendMessage(Football.getPrefix() + "Du hast das Spiel verlassen.");
 		  return true;
+
+	   } else if(args[0].equalsIgnoreCase("join")) {
+
+		  Player player = Bukkit.getPlayer(((Player) commandSender).getUniqueId());
+		  CustomPlayerCache customPlayerCache = Football.getFootballSession().getCustomPlayerCaches().get(player.getUniqueId());
+
+		  if(customPlayerCache.isIngame()) {
+
+			 player.sendMessage(Football.getPrefix() + "§cDu kannst im Spiel kein Team wechseln!");
+			 return true;
+		  }
+
+		  if(customPlayerCache.getLastTeamSwitchStamp() > System.currentTimeMillis()) {
+
+			 player.sendMessage(Football.getPrefix() + "§cDu kannst nur jede Minute das Team wechseln!");
+			 return true;
+		  }
+
+		  SimpleTeam simpleTeam = (SimpleTeam) Football.getFootballSession().getSimpleTeamMap().getTeam(args[1].toLowerCase());
+
+		  if(simpleTeam == null) {
+
+			 commandSender.sendMessage(Football.getPrefix() + "§cDas ausgewählte Team exestiert nicht!");
+			 return true;
+		  }
+
+		  if(simpleTeam.getPlayers().contains(player)) {
+
+			 commandSender.sendMessage(Football.getPrefix() + "§7Du bist bereits Teil von Team " + simpleTeam.getTeamDisplayName() + "§7!");
+			 return true;
+		  }
+
+		  simpleTeam.addPlayer(player);
+
+		  customPlayerCache.setLastTeamSwitchStamp(System.currentTimeMillis()+(60*1000));
+		  customPlayerCache.setCurrentTeam(simpleTeam);
+
+		  player.sendMessage(Football.getPrefix() + "§7Du bist nun in Team " + simpleTeam.getTeamDisplayName() + "§7.");
+		  return true;
 	   }
 
-	   Player player = Bukkit.getPlayer(((Player) commandSender).getUniqueId());
-	   CustomPlayerCache customPlayerCache = Football.getFootballSession().getCustomPlayerCaches().get(player.getUniqueId());
-
-	   if(customPlayerCache.isIngame()) {
-
-	       player.sendMessage(Football.getPrefix() + "§cDu kannst im Spiel kein Team wechseln!");
-	       return true;
-	   }
-
-	   if(customPlayerCache.getLastTeamSwitchStamp() > System.currentTimeMillis()) {
-
-	       player.sendMessage(Football.getPrefix() + "§cDu kannst nur jede Minute das Team wechseln!");
-	       return true;
-	   }
-
-	   SimpleTeam simpleTeam = (SimpleTeam) Football.getFootballSession().getSimpleTeamMap().getTeam(args[1]);
-
-	   if(simpleTeam == null) {
-
-		  commandSender.sendMessage(Football.getPrefix() + "§cDas ausgewählte Team exestiert nicht!");
-	       return true;
-	   }
-
-	   if(simpleTeam.getPlayers().contains(player)) {
-
-		  commandSender.sendMessage(Football.getPrefix() + "§7Du bist bereits Teil von Team " + simpleTeam.getTeamDisplayName() + "§7!");
-	       return true;
-	   }
-
-	   simpleTeam.addPlayer(player);
-
-	   customPlayerCache.setLastTeamSwitchStamp(System.currentTimeMillis()+(60*1000));
-	   customPlayerCache.setCurrentTeam(simpleTeam);
-
-	   player.sendMessage(Football.getPrefix() + "§7Du bist nun in Team " + simpleTeam.getTeamDisplayName() + "§7.");
+	   commandSender.sendMessage(Football.getPrefix() + "Bitte wähle ein Team aus!");
+	   commandSender.sendMessage("§c/team <join|leave> [Rot|Blau]");
 	   return true;
     }
 }

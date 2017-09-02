@@ -1,6 +1,9 @@
 package de.obdachioser.football.projectlisteners;
 
+import de.obdachioser.football.CustomPlayerCache;
+import de.obdachioser.football.Football;
 import de.obdachioser.football.events.worldguard.PlayerRegionLeftEvent;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -14,6 +17,12 @@ public class PlayerRegionLeftListener implements Listener {
 
     @EventHandler
     public void regionLeft(PlayerRegionLeftEvent event) {
-	   event.getPlayer().sendMessage("lefted");
+
+	   CustomPlayerCache customPlayerCache = Football.getFootballSession().getCustomPlayerCaches().get(event.getPlayer().getUniqueId());
+	   customPlayerCache.setIngame(false);
+
+	   event.getPlayer().playSound(event.getPlayer().getEyeLocation(), Sound.ITEM_PICKUP, 1F, 1F);
+
+	   event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7verlassen.");
     }
 }
