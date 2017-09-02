@@ -51,24 +51,30 @@ public class SlimeMoveListener implements Listener {
 		  }
 
 		  if(protectedRegion.getId().equals(Football.getFootballSession().getRegionName() + "-gate-blue")
-				    && protectedRegion.contains((int) event.getTo().getX(), (int) event.getTo().getY(), (int) event.getTo().getZ())) {
+				    && protectedRegion.contains((int) event.getTo().getX(), (int) event.getTo().getY(), (int) event.getTo().getZ())
+				    && Football.getFootballSlime().getLastscore() < System.currentTimeMillis()) {
 
-                TeamScoreEvent teamScoreEvent = new TeamScoreEvent(
-                		  Football.getFootballSession().getSimpleTeamMap().getTeam("blau"),
+			 TeamScoreEvent teamScoreEvent = new TeamScoreEvent(
+					   Football.getFootballSession().getSimpleTeamMap().getTeam("rot"),
+					   Football.getFootballSession().getSimpleTeamMap().getTeam("blau"),
 					   Football.getFootballSlime().getLastKicker());
 
+			 Football.getFootballSlime().setLastscore(System.currentTimeMillis()+5000);
                 Bukkit.getPluginManager().callEvent(teamScoreEvent);
 
                 Football.getFootballSlime().destroyAndSpawn();
 		  }
 
 		  if(protectedRegion.getId().equals(Football.getFootballSession().getRegionName() + "-gate-red")
-				    && protectedRegion.contains((int) event.getTo().getX(), (int) event.getTo().getY(), (int) event.getTo().getZ())) {
+				    && protectedRegion.contains((int) event.getTo().getX(), (int) event.getTo().getY(), (int) event.getTo().getZ())
+				    && Football.getFootballSlime().getLastscore() < System.currentTimeMillis()) {
 
 			 TeamScoreEvent teamScoreEvent = new TeamScoreEvent(
+					   Football.getFootballSession().getSimpleTeamMap().getTeam("blau"),
 					   Football.getFootballSession().getSimpleTeamMap().getTeam("rot"),
 					   Football.getFootballSlime().getLastKicker());
 
+			 Football.getFootballSlime().setLastscore(System.currentTimeMillis()+5000);
 			 Bukkit.getPluginManager().callEvent(teamScoreEvent);
 
 			 Football.getFootballSlime().destroyAndSpawn();

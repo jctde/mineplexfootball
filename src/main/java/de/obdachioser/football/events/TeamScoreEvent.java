@@ -19,12 +19,14 @@ public class TeamScoreEvent extends Event {
 
     private static HandlerList handlerList = new HandlerList();
 
-    private Team team;
+    private Team scorredTeam;
+    private Team losedTeam;
+
     private Player player;
 
     @Override
     public HandlerList getHandlers() {
-	   return null;
+	   return handlerList;
     }
 
     public static HandlerList getHandlerList() {

@@ -19,4 +19,6 @@ public interface Team {
     void setTeamDisplayName(String displayName);
     String getTeamName();
     TeamColor getTeamColor();
+    void addScore();
+    Integer getScore();
 }

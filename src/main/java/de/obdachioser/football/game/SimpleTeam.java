@@ -22,6 +22,8 @@ public class SimpleTeam extends DefinedTeam {
 
     private List<Player> playerList = Lists.newCopyOnWriteArrayList();
 
+    private int scores = 0;
+
     @Getter
     private ItemStack[] armorContent;
 
@@ -73,4 +75,18 @@ public class SimpleTeam extends DefinedTeam {
 
     @Override
     public void setTeamDisplayName(String displayName) {}
+
+    @Override
+    public void addScore() {
+        scores++;
+    }
+
+    @Override
+    public Integer getScore() {
+        return scores;
+    }
+
+    public void r() {
+        scores = 0;
+    }
 }

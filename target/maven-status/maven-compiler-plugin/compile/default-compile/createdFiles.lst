@@ -11,6 +11,7 @@ de\obdachioser\football\game\Team.class
 de\obdachioser\football\listeners\PlayerJoinListener.class
 de\obdachioser\football\events\PlayerTeamQuitEvent.class
 de\obdachioser\football\listeners\PlayerQuitListener.class
+de\obdachioser\football\projectlisteners\TeamScoreListener.class
 de\obdachioser\football\FootballSession.class
 de\obdachioser\football\listeners\EntityDamageListener.class
 de\obdachioser\football\utils\ItemStackCreator.class

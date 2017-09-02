@@ -11,7 +11,7 @@ import lombok.Getter;
 public enum TeamColor {
 
     RED("Rot", "§cRot", "§c"),
-    BLUE("Blau", "§bBlau", "§a");
+    BLUE("Blau", "§bBlau", "§b");
 
     @Getter
     private String teamName;

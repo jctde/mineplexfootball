@@ -5,6 +5,7 @@ import de.obdachioser.football.listeners.*;
 import de.obdachioser.football.projectlisteners.PlayerRegionEnteredListener;
 import de.obdachioser.football.projectlisteners.PlayerRegionLeftListener;
 import de.obdachioser.football.projectlisteners.SlimeMoveListener;
+import de.obdachioser.football.projectlisteners.TeamScoreListener;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -91,6 +92,7 @@ public class Football extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
 
         getServer().getPluginManager().registerEvents(new SlimeMoveListener(), this);
+        getServer().getPluginManager().registerEvents(new TeamScoreListener(), this);
     }
 
     private void registerCommands() {

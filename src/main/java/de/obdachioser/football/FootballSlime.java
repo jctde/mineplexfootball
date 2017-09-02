@@ -7,6 +7,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -36,6 +37,9 @@ public class FootballSlime {
 
     private Location location;
 
+    @Getter @Setter
+    private Long lastscore = System.currentTimeMillis();
+
     public FootballSlime(Location location) {
 
         this.location = location;
@@ -57,7 +61,13 @@ public class FootballSlime {
 
             try {
 
-                TimeUnit.MILLISECONDS.sleep(750L);
+                TimeUnit.MILLISECONDS.sleep(2250L);
+
+                for(Player player : Bukkit.getOnlinePlayers()) {
+
+                    CustomPlayerCache customPlayerCache = Football.getFootballSession().getCustomPlayerCaches().get(player.getUniqueId());
+                    if(customPlayerCache.isIngame()) player.playSound(player.getEyeLocation(), Sound.NOTE_PLING, 1F, 1F);
+                }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Football.getInstance(), () -> {
 
@@ -90,7 +100,7 @@ public class FootballSlime {
 
                     i = 0;
 
-                    TimeUnit.MILLISECONDS.sleep(75L);
+                    TimeUnit.MILLISECONDS.sleep(65L);
 
                     SlimeMoveEvent slimeMoveEvent = new SlimeMoveEvent(false, slime, lastLocation, slime.getLocation());
                     Bukkit.getPluginManager().callEvent(slimeMoveEvent);
