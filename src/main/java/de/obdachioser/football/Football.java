@@ -1,9 +1,7 @@
 package de.obdachioser.football;
 
 import de.obdachioser.football.commands.TeamCommand;
-import de.obdachioser.football.listeners.PlayerJoinListener;
-import de.obdachioser.football.listeners.PlayerMoveListener;
-import de.obdachioser.football.listeners.PlayerQuitListener;
+import de.obdachioser.football.listeners.*;
 import de.obdachioser.football.projectlisteners.PlayerRegionEnteredListener;
 import de.obdachioser.football.projectlisteners.PlayerRegionLeftListener;
 import lombok.Getter;
@@ -76,6 +74,9 @@ public class Football extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerRegionEnteredListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerRegionLeftListener(), this);
+
+        getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
     }
 
     private void registerCommands() {

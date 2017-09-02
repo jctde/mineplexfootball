@@ -3,6 +3,7 @@ package de.obdachioser.football.projectlisteners;
 import de.obdachioser.football.CustomPlayerCache;
 import de.obdachioser.football.Football;
 import de.obdachioser.football.events.worldguard.PlayerRegionEnteredEvent;
+import de.obdachioser.football.game.SimpleTeam;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
@@ -50,8 +51,10 @@ public class PlayerRegionEnteredListener implements Listener {
 
             customPlayerCache.setIngame(true);
 
-            event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7betreten!");
+            event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7betreten.");
             event.getPlayer().playSound(event.getPlayer().getEyeLocation(), Sound.ITEM_PICKUP, 1F, 1F);
+
+            event.getPlayer().getInventory().setArmorContents(((SimpleTeam) customPlayerCache.getCurrentTeam()).getArmorContent());
         }
     }
 }

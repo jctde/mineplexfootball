@@ -1,7 +1,5 @@
 package de.obdachioser.football.listeners;
 
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -10,9 +8,14 @@ import de.obdachioser.football.Football;
 import de.obdachioser.football.events.worldguard.PlayerRegionEnteredEvent;
 import de.obdachioser.football.events.worldguard.PlayerRegionLeftEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
+
+import java.util.List;
 
 /**
  * package: de.obdachioser.football.listeners
@@ -52,6 +55,14 @@ public class PlayerMoveListener implements Listener {
 				if (playerRegionLeftEvent.isCancelled()) return;
 			 }
 		  }
+	   }
+
+	   if(playerCache.isIngame()) {
+
+		  List<Entity> entityList = event.getPlayer().getNearbyEntities(0.5, 0.5, 0.5);
+
+	       if(entityList.size() >= 1 && entityList.get(0).getType() == EntityType.SLIME)
+			 Football.getFootballSlime().setVelocity(event.getPlayer().getLocation().getDirection().multiply(1.25).setY(0.22));
 	   }
     }
 }

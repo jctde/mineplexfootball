@@ -26,7 +26,7 @@ public class SimpleTeam extends DefinedTeam {
     private ItemStack[] armorContent = {
     		  ItemStackCreator.d(Material.LEATHER_BOOTS, getTeamColor(), " "),
 			 ItemStackCreator.d(Material.LEATHER_LEGGINGS, getTeamColor(), " "),
-			 ItemStackCreator.d(Material.LEATHER_CHESTPLATE, getTeamColor(), " ")};
+			 ItemStackCreator.d(Material.LEATHER_CHESTPLATE, getTeamColor(), " "), null};
 
     private TeamColor teamColor;
 

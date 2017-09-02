@@ -6,6 +6,7 @@ import de.obdachioser.football.events.worldguard.PlayerRegionLeftEvent;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * package: de.obdachioser.football.projectlisteners
@@ -24,5 +25,7 @@ public class PlayerRegionLeftListener implements Listener {
 	   event.getPlayer().playSound(event.getPlayer().getEyeLocation(), Sound.ITEM_PICKUP, 1F, 1F);
 
 	   event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7verlassen.");
+
+	   event.getPlayer().getInventory().setArmorContents(new ItemStack[] {null, null, null, null});
     }
 }
