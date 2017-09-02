@@ -5,11 +5,13 @@ import de.obdachioser.football.Football;
 import de.obdachioser.football.events.worldguard.PlayerRegionLeftEvent;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 /**
  * package: de.obdachioser.football.projectlisteners
@@ -23,8 +25,25 @@ public class PlayerRegionLeftListener implements Listener {
     public void regionLeft(PlayerRegionLeftEvent event) {
 
 	   CustomPlayerCache customPlayerCache = Football.getFootballSession().getCustomPlayerCaches().get(event.getPlayer().getUniqueId());
-	   customPlayerCache.setIngame(false);
 
+	   if(customPlayerCache.getLastPush() > System.currentTimeMillis()) {
+
+		  Location playerLocation = event.getPlayer().getLocation().clone();
+		  Location middleLocation = Football.getFootballSession().getMiddlePointLocation().clone();
+
+		  Vector vector = new Vector((middleLocation.getBlockX()-playerLocation.getBlockX()),
+				    (middleLocation.getY()-playerLocation.getY()), (middleLocation.getZ()-playerLocation.getZ()));
+
+		  vector.setY(0.30);
+		  vector.setX(vector.getBlockX()/13.55);
+		  vector.setZ(vector.getBlockZ()/13.55);
+
+		  event.getPlayer().setVelocity(vector);
+	       event.setCancelled(true);
+	       return;
+	   }
+
+	   customPlayerCache.setIngame(false);
 	   event.getPlayer().playSound(event.getPlayer().getEyeLocation(), Sound.ITEM_PICKUP, 1F, 1F);
 
 	   event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7verlassen.");

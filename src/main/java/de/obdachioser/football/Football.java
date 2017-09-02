@@ -76,6 +76,9 @@ public class Football extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        if(footballSlime != null) footballSlime.destroy();
+
 	   super.onDisable();
     }
 

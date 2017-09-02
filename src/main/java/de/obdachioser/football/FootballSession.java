@@ -29,7 +29,7 @@ public class FootballSession {
     private HashMap<UUID, CustomPlayerCache> customPlayerCaches = Maps.newHashMap();
 
     private String regionName = "football";
-    private Location middlePointLocation = new Location(Bukkit.getWorld(Football.getInstance().getWorld()), 0.0, 100.0, 0.0);
+    private Location middlePointLocation = new Location(Bukkit.getWorld(Football.getInstance().getWorld()), 0.5, 100.0, 0.5);
 
     private RegionManager regionManager;
 

@@ -3,12 +3,12 @@ package de.obdachioser.football;
 import de.obdachioser.football.events.SlimeMoveEvent;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntity;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.util.UnsafeList;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -46,8 +47,7 @@ public class FootballSlime {
         slime = (Slime) location.getWorld().spawnEntity(location, EntityType.SLIME);
         slime.setSize(2);
 
-        slime.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999*999, 255, false, false));
-
+        d();
         a();
     }
 
@@ -74,7 +74,8 @@ public class FootballSlime {
                     slime = (Slime) location.getWorld().spawnEntity(location, EntityType.SLIME);
                     slime.setSize(2);
 
-                    slime.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999*999, 255, false, false));
+                    d();
+
                 });
 
             } catch (Exception exc) {
@@ -126,5 +127,24 @@ public class FootballSlime {
 
     public void destroy() {
         if(slime != null) slime.remove();
+    }
+
+    private void d() {
+        EntityInsentient entitySheep = (EntityInsentient) ((CraftEntity) slime).getHandle();
+
+        try {
+            Field bField = PathfinderGoalSelector.class.getDeclaredField("b");
+            bField.setAccessible(true);
+            Field cField = PathfinderGoalSelector.class.getDeclaredField("c");
+
+            cField.setAccessible(true);
+            bField.set(entitySheep.goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            bField.set(entitySheep.targetSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(entitySheep.goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(entitySheep.targetSelector, new UnsafeList<PathfinderGoalSelector>());
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
     }
 }

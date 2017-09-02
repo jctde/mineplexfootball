@@ -29,8 +29,6 @@ public class SlimeMoveListener implements Listener {
             if(protectedRegion.getId().equals(Football.getFootballSession().getRegionName())
 				    && !protectedRegion.contains((int) event.getTo().getX(), (int) event.getTo().getY(), (int) event.getTo().getZ())) {
 
-			 Bukkit.broadcastMessage("Wrong postition");
-
 			 Location slimeLocation = event.getSlime().getLocation().clone();
 			 Location middleLocation = Football.getFootballSession().getMiddlePointLocation().clone();
 

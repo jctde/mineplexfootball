@@ -20,4 +20,5 @@ public class CustomPlayerCache {
     private Team currentTeam = null;
     private Long lastTeamSwitchStamp = System.currentTimeMillis();
     private Long lastmessagestamp = System.currentTimeMillis();
+    private Long lastPush = System.currentTimeMillis();
 }
