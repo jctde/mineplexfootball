@@ -28,10 +28,8 @@ public class FootballSession {
     private SimpleTeamMap simpleTeamMap = new SimpleTeamMap();
     private HashMap<UUID, CustomPlayerCache> customPlayerCaches = Maps.newHashMap();
 
-    private List<Player> ingamePlayers = Lists.newCopyOnWriteArrayList();
-
     private String regionName = "football";
-    private Location middlePointLocation = new Location(Bukkit.getWorld("world"), 0.0, 100.0, 0.0);
+    private Location middlePointLocation = new Location(Bukkit.getWorld(Football.getInstance().getWorld()), 0.0, 100.0, 0.0);
 
     private RegionManager regionManager;
 
@@ -42,7 +40,7 @@ public class FootballSession {
         simpleTeamMap.registerNewTeam(new SimpleTeam(TeamColor.RED));
         simpleTeamMap.registerNewTeam(new SimpleTeam(TeamColor.BLUE));
 
-        regionManager = WorldGuardPlugin.inst().getRegionManager(Bukkit.getWorld("world"));
+        regionManager = WorldGuardPlugin.inst().getRegionManager(Bukkit.getWorld(Football.getInstance().getWorld()));
     }
 
     public void stop() {

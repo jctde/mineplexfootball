@@ -4,8 +4,11 @@ import de.obdachioser.football.CustomPlayerCache;
 import de.obdachioser.football.Football;
 import de.obdachioser.football.events.worldguard.PlayerRegionEnteredEvent;
 import de.obdachioser.football.game.SimpleTeam;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
@@ -55,6 +58,15 @@ public class PlayerRegionEnteredListener implements Listener {
             event.getPlayer().playSound(event.getPlayer().getEyeLocation(), Sound.ITEM_PICKUP, 1F, 1F);
 
             event.getPlayer().getInventory().setArmorContents(((SimpleTeam) customPlayerCache.getCurrentTeam()).getArmorContent());
+
+            PacketPlayOutTitle packetPlayOutTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
+                        IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + "§f§lFOOTBALL" + "\"}"));
+
+            PacketPlayOutTitle packetPlayOutSubTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+                        IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + "§7Du hast das §eSpielfeld §7betreten!" + "\"}"));
+
+            ((CraftPlayer) event.getPlayer()).getHandle().playerConnection.sendPacket(packetPlayOutTitle);
+            ((CraftPlayer) event.getPlayer()).getHandle().playerConnection.sendPacket(packetPlayOutSubTitle);
         }
     }
 }

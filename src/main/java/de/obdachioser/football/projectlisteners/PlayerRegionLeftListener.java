@@ -3,7 +3,10 @@ package de.obdachioser.football.projectlisteners;
 import de.obdachioser.football.CustomPlayerCache;
 import de.obdachioser.football.Football;
 import de.obdachioser.football.events.worldguard.PlayerRegionLeftEvent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -27,5 +30,14 @@ public class PlayerRegionLeftListener implements Listener {
 	   event.getPlayer().sendMessage(Football.getPrefix() + "Du hast das §eSpielfeld §7verlassen.");
 
 	   event.getPlayer().getInventory().setArmorContents(new ItemStack[] {null, null, null, null});
+
+	   PacketPlayOutTitle packetPlayOutTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
+				IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + "§f§lFOOTBALL" + "\"}"));
+
+	   PacketPlayOutTitle packetPlayOutSubTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+				IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + "§7Du hast das §eSpielfeld §7verlassen!" + "\"}"));
+
+	   ((CraftPlayer) event.getPlayer()).getHandle().playerConnection.sendPacket(packetPlayOutTitle);
+	   ((CraftPlayer) event.getPlayer()).getHandle().playerConnection.sendPacket(packetPlayOutSubTitle);
     }
 }

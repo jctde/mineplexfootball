@@ -4,6 +4,7 @@ import de.obdachioser.football.commands.TeamCommand;
 import de.obdachioser.football.listeners.*;
 import de.obdachioser.football.projectlisteners.PlayerRegionEnteredListener;
 import de.obdachioser.football.projectlisteners.PlayerRegionLeftListener;
+import de.obdachioser.football.projectlisteners.SlimeMoveListener;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -34,6 +35,9 @@ public class Football extends JavaPlugin {
     @Getter
     private static String prefix = "§f[§eFootball§f] §7";
 
+    @Getter
+    private String world = "world";
+
     public Football() {
         instance = this;
     }
@@ -46,6 +50,14 @@ public class Football extends JavaPlugin {
             try {
 
                 TimeUnit.MILLISECONDS.sleep(500L);
+
+                if(Bukkit.getPluginManager().getPlugin("WorldGuard") == null) {
+
+                    System.out.println("Can't enable Football: Missing Plugin WorldGuard");
+                    onDisable();
+
+                    return;
+                }
 
                 footballSession = new FootballSession();
                 footballSession.start();
@@ -77,6 +89,8 @@ public class Football extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
+
+        getServer().getPluginManager().registerEvents(new SlimeMoveListener(), this);
     }
 
     private void registerCommands() {

@@ -23,16 +23,18 @@ public class SimpleTeam extends DefinedTeam {
     private List<Player> playerList = Lists.newCopyOnWriteArrayList();
 
     @Getter
-    private ItemStack[] armorContent = {
-    		  ItemStackCreator.d(Material.LEATHER_BOOTS, getTeamColor(), " "),
-			 ItemStackCreator.d(Material.LEATHER_LEGGINGS, getTeamColor(), " "),
-			 ItemStackCreator.d(Material.LEATHER_CHESTPLATE, getTeamColor(), " "), null};
+    private ItemStack[] armorContent;
 
     private TeamColor teamColor;
 
     public SimpleTeam(TeamColor teamColor) {
         super (teamColor);
         this.teamColor = teamColor;
+
+        armorContent = new ItemStack[] {
+                    ItemStackCreator.d(Material.LEATHER_BOOTS, teamColor, " "),
+                    ItemStackCreator.d(Material.LEATHER_LEGGINGS, teamColor, " "),
+                    ItemStackCreator.d(Material.LEATHER_CHESTPLATE, teamColor, " "), null};
     }
 
     @Override

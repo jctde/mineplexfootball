@@ -6,7 +6,6 @@ de\obdachioser\football\game\SimpleTeam.class
 de\obdachioser\football\FootballSlime.class
 de\obdachioser\football\events\worldguard\PlayerRegionEnteredEvent.class
 de\obdachioser\football\events\PlayerGameLeaveEvent.class
-de\obdachioser\football\events\PlayerSlimeBallKickedEvent.class
 de\obdachioser\football\commands\TeamCommand.class
 de\obdachioser\football\game\Team.class
 de\obdachioser\football\listeners\PlayerJoinListener.class
@@ -21,6 +20,8 @@ de\obdachioser\football\events\worldguard\PlayerRegionLeftEvent.class
 de\obdachioser\football\listeners\PlayerMoveListener.class
 de\obdachioser\football\SimpleTeamMap.class
 de\obdachioser\football\game\TeamColor.class
+de\obdachioser\football\projectlisteners\SlimeMoveListener.class
 de\obdachioser\football\projectlisteners\PlayerRegionEnteredListener.class
 de\obdachioser\football\projectlisteners\PlayerRegionLeftListener.class
 de\obdachioser\football\events\PlayerTeamJoinEvent.class
+de\obdachioser\football\events\TeamScoreEvent.class

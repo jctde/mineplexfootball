@@ -61,8 +61,11 @@ public class PlayerMoveListener implements Listener {
 
 		  List<Entity> entityList = event.getPlayer().getNearbyEntities(0.5, 0.5, 0.5);
 
-	       if(entityList.size() >= 1 && entityList.get(0).getType() == EntityType.SLIME)
-			 Football.getFootballSlime().setVelocity(event.getPlayer().getLocation().getDirection().multiply(1.25).setY(0.22));
+	       if(entityList.size() >= 1 && entityList.get(0).getType() == EntityType.SLIME && entityList.get(0) == Football.getFootballSlime().getSlime()) {
+
+			 Football.getFootballSlime().setVelocity(event.getPlayer().getLocation().getDirection().multiply(1.55).setY(0.26));
+			 Football.getFootballSlime().setLastKicker(event.getPlayer());
+		  }
 	   }
     }
 }

@@ -2,16 +2,22 @@ package de.obdachioser.football;
 
 import de.obdachioser.football.events.SlimeMoveEvent;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,12 +31,47 @@ public class FootballSlime {
     @Getter
     private Slime slime;
 
+    @Getter @Setter
+    private Player lastKicker = null;
+
+    private Location location;
+
     public FootballSlime(Location location) {
 
+        this.location = location;
         slime = (Slime) location.getWorld().spawnEntity(location, EntityType.SLIME);
-        slime.setSize(4);
+        slime.setSize(2);
+
+        slime.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999*999, 255, false, false));
 
         a();
+    }
+
+    private ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+
+    public void destroyAndSpawn() {
+
+        destroy();
+
+        threadPoolExecutor.execute(() -> {
+
+            try {
+
+                TimeUnit.MILLISECONDS.sleep(750L);
+
+                Bukkit.getScheduler().scheduleSyncDelayedTask(Football.getInstance(), () -> {
+
+                    slime = (Slime) location.getWorld().spawnEntity(location, EntityType.SLIME);
+                    slime.setSize(2);
+
+                    slime.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999*999, 255, false, false));
+                });
+
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
+
+        });
     }
 
     public void setVelocity(Vector velocity) {
@@ -47,12 +88,22 @@ public class FootballSlime {
 
                 for(Integer i = 0; i != -1; i++) {
 
-                    TimeUnit.MILLISECONDS.sleep(150L);
-
-                    Bukkit.getPluginManager().callEvent(new SlimeMoveEvent(slime, lastLocation, slime.getLocation()));
-                    lastLocation = slime.getLocation();
-
                     i = 0;
+
+                    TimeUnit.MILLISECONDS.sleep(75L);
+
+                    SlimeMoveEvent slimeMoveEvent = new SlimeMoveEvent(false, slime, lastLocation, slime.getLocation());
+                    Bukkit.getPluginManager().callEvent(slimeMoveEvent);
+
+                    if(slimeMoveEvent.isCancelled()) {
+
+                        if(lastLocation == null) lastLocation = getSlime().getLocation();
+
+                        slime.teleport(lastLocation);
+                        return;
+                    }
+
+                    lastLocation = slime.getLocation();
                 }
 
             } catch (Exception exc) {
